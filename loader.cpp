@@ -1,7 +1,8 @@
+#include "loader.h"
+
 #include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "core.h"
 
 int load_widevine(void) {
     char *widevine_path = getenv("WIDEVINE_PATH");
