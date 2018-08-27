@@ -6,4 +6,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_compile_options(-fvisibility=hidden)
 
-add_library(widevineproxy SHARED base_interface.cpp loader.cpp loader.h extern/cdmapi.h globals.cpp cdmapi.cpp)
+add_library(widevineproxy SHARED base_interface.cpp loader.cpp loader.h extern/cdmapi.h globals.cpp cdmproxy.cpp cdmproxy.h)

@@ -1,6 +1,7 @@
 #include "base_interface.h"
 #include "loader.h"
 #include "extern/cdmapi.h"
+#include "cdmproxy.h"
 
 #include <cstdio>
 #include <dlfcn.h>
@@ -59,7 +60,7 @@ extern "C" EXPORT void *HostFunction(int host_version, void* user_data) {
 extern "C" EXPORT void *CreateCdmInstance(int interface_version, const char *key_system, uint32_t key_system_len,
                         CdmHostFunction_t host_function, void *extra_data) {
     if(!widevine) load_widevine();
-    fprintf(stderr, "Creating Widevine CDM Interface with key system '");
+    fprintf(stderr, "Creating Widevine CDM Interface with version %d and key system '", interface_version);
     for(uint32_t i = 0; i < key_system_len; i++) fputc(key_system[i], stderr);
     fprintf(stderr, "'\n");
 
@@ -68,8 +69,9 @@ extern "C" EXPORT void *CreateCdmInstance(int interface_version, const char *key
 
     auto orig_CreateCdmInstance = (CreateCdmInstance_t) dlsym(widevine, "CreateCdmInstance");
     void *instance =  orig_CreateCdmInstance(interface_version, key_system, key_system_len, HostFunction, extra_data);
-    fprintf(stderr, "\nFound version %d\n", static_cast<cdm::ContentDecryptionModule*>(instance)->kVersion);
-    return instance;
+
+    // Let's assume it's version 8 for now
+    return static_cast<void*>(new CDMProxy_8(static_cast<cdm::ContentDecryptionModule_8*>(instance)));
 
 }
 
