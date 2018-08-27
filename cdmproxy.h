@@ -1,23 +1,21 @@
 #pragma once
 
+#include <cstdio>
 #include "extern/cdmapi.h"
 using namespace cdm;
 
-class CDMProxy_9 : ContentDecryptionModule_9 {
+class CDMProxy_8 : ContentDecryptionModule_8 {
 private:
-    ContentDecryptionModule_9 *orig_cdm;
+    ContentDecryptionModule_8 *orig_cdm;
+    FILE *dumpfile;
 
 public:
-    explicit CDMProxy_9(ContentDecryptionModule_9 *passed_cdm);
-    ~CDMProxy_9() override = default;
+    explicit CDMProxy_8(ContentDecryptionModule_8 *passed_cdm);
+    ~CDMProxy_8() override = default;
 
 
     void Initialize(bool allow_distinctive_identifier,
                             bool allow_persistent_state) override;
-
-    void GetStatusForPolicy(uint32_t promise_id,
-                                    const Policy& policy) override;
-
 
     void SetServerCertificate(uint32_t promise_id,
                                       const uint8_t* server_certificate_data,
@@ -76,10 +74,6 @@ public:
             QueryResult result,
             uint32_t link_mask,
             uint32_t output_protection_mask) override;
-
-    void OnStorageId(uint32_t version,
-                             const uint8_t* storage_id,
-                             uint32_t storage_id_size) override;
 
     void Destroy() override;
 

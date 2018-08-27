@@ -72,8 +72,8 @@ extern "C" EXPORT void *CreateCdmInstance(int interface_version, const char *key
 
     if(instance == nullptr) return nullptr;
 
-    auto proxy = new CDMProxy_9(static_cast<cdm::ContentDecryptionModule_9*>(instance));
-    auto interface = (cdm::ContentDecryptionModule_9*)proxy;
+    auto proxy = new CDMProxy_8(static_cast<cdm::ContentDecryptionModule_8*>(instance));
+    auto interface = (cdm::ContentDecryptionModule_8*)proxy;
     return reinterpret_cast<void*>(interface);
 
 }
