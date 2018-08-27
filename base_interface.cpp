@@ -70,9 +70,10 @@ extern "C" EXPORT void *CreateCdmInstance(int interface_version, const char *key
     auto orig_CreateCdmInstance = (CreateCdmInstance_t) dlsym(widevine, "CreateCdmInstance");
     void *instance =  orig_CreateCdmInstance(interface_version, key_system, key_system_len, HostFunction, extra_data);
 
+    if(instance == nullptr) return nullptr;
+
     auto proxy = new CDMProxy_9(static_cast<cdm::ContentDecryptionModule_9*>(instance));
     auto interface = (cdm::ContentDecryptionModule_9*)proxy;
-    // Let's assume it's version 8 for now
     return reinterpret_cast<void*>(interface);
 
 }

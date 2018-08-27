@@ -56,3 +56,11 @@ std::string hdcp_version_str(HdcpVersion hv) {
 std::string with_str(bool c) {
     return c ? "with" : "without";
 }
+
+void dump_memory(void *ptr, uint32_t len) {
+    auto bytes = (uint8_t*)ptr;
+    for(uint32_t i = 0; i < len; i++) {
+        fprintf(stderr, "%02x", bytes[i]);
+    }
+    fprintf(stderr, "\n");
+}
