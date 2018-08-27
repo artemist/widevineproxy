@@ -8,6 +8,8 @@ class CDMProxy_8 : ContentDecryptionModule_8 {
 private:
     ContentDecryptionModule_8 *orig_cdm;
     FILE *dumpfile;
+    FILE *videodump;
+    DecryptedBlock *temp_block;
 
 public:
     explicit CDMProxy_8(ContentDecryptionModule_8 *passed_cdm);
@@ -78,4 +80,21 @@ public:
     void Destroy() override;
 
 
+};
+
+class DecryptedProxyBlock : public DecryptedBlock {
+public:
+    void SetDecryptedBuffer(Buffer* buffer) override;
+    Buffer* DecryptedBuffer() override;
+
+    void SetTimestamp(int64_t timestamp) override;
+    int64_t Timestamp() const override;
+
+    DecryptedProxyBlock() = default;
+
+    ~DecryptedProxyBlock() override = default;
+
+private:
+    int64_t ts = 0;
+    Buffer *buf = nullptr;
 };
